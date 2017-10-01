@@ -9,6 +9,8 @@ from itertools import chain
 #york is F18S and F18N
 #high is A40S and A40N
 
+station_one = 'D03N'
+
 #creates the feed
 
 #URL has API key so keep it in a different file
@@ -38,6 +40,6 @@ for i in range (40):
             pass
 
 #pulls the entries tied to specific stops
-small_list = [ i for i in chain.from_iterable(useful_list) if i['stop_id'] == 'D03N' ]
+small_list = [ i for i in chain.from_iterable(useful_list) if i['stop_id'] == station_one ]
 
 pprint(small_list)
