@@ -28,8 +28,8 @@ useful_dict = protobuf_to_dict(feed)
 useful_list = []
 
 #walks through each train entry to see if it is an active train
-#will eventually want to change it to 'range(len(useful_dict))'
-for i in range (40):
+
+for i in range (len(useful_dict['entity'])):
     #this seems to be necessary, I'm not sure why
     if useful_dict['entity'][i]['id']:
         #adds the arrival information to useful_list
