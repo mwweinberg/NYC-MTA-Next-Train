@@ -23,8 +23,11 @@ feed.ParseFromString(response.read())
 #turns the feed into a dictionary
 useful_dict = protobuf_to_dict(feed)
 
+#this will print out everything that comes through the feed for troubleshooting/planning purposes into a file
+#with open('useful_dict.txt', 'wt') as out:
+ #    pprint(useful_dict, stream=out)
 
-
+#this is the list of sub elements in useful_dict. basically it makes useful_dict slightly more manageable
 useful_list = []
 
 #walks through each train entry to see if it is an active train
