@@ -1,8 +1,12 @@
+#sudo -H pip2 install gtfs-realtime-bindings
 from google.transit import gtfs_realtime_pb2
 import urllib
 from pprint import pprint
+#sudo -H pip2 install protobuf_to_dict
 from protobuf_to_dict import protobuf_to_dict
 from itertools import chain
+
+#current works with python 2
 
 #this of stations:
 #http://mtaapi.herokuapp.com/stations
