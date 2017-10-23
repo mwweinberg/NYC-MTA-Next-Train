@@ -6,6 +6,11 @@ from pprint import pprint
 from protobuf_to_dict import protobuf_to_dict
 from itertools import chain
 
+#for comparing the arrival times
+import datetime
+import time
+import dateutil.relativedelta
+
 #current works with python 2
 
 #this of stations:
@@ -26,6 +31,8 @@ feed.ParseFromString(response.read())
 
 #turns the feed into a dictionary
 useful_dict = protobuf_to_dict(feed)
+#just for troubleshooting
+print useful_dict
 
 #this will print out everything that comes through the feed for troubleshooting/planning purposes into a file
 #with open('useful_dict.txt', 'wt') as out:
@@ -33,6 +40,9 @@ useful_dict = protobuf_to_dict(feed)
 
 #this is the list of sub elements in useful_dict. basically it makes useful_dict slightly more manageable
 useful_list = []
+
+#list of arrival times to be filled by extracting info from small_list
+arrival_times = []
 
 #walks through each train entry to see if it is an active train
 
@@ -50,3 +60,19 @@ for i in range (len(useful_dict['entity'])):
 small_list = [ i for i in chain.from_iterable(useful_list) if i['stop_id'] == station_one ]
 
 pprint(small_list)
+
+#extracts the times from the small_list
+for i in small_list:
+    #this is the arrival time of each train
+    the_time = i['arrival']['time']
+    #just for troubleshooting
+    print the_time
+    print "*******"
+    #convert epoch time to real time
+    #diff scheduled time from now
+    dt1 = datetime.datetime.fromtimestamp(the_time)
+    dt2 = int(time.time())
+    print dt2
+        #time_difference = dateutil.relativedelta.relativedelta (dt1, dt2)
+        #print time_difference
+    #add diff to arrival time list
