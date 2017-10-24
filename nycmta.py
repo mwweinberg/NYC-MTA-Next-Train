@@ -19,7 +19,8 @@ import time
 #high is A40S and A40N
 
 #used D03N to test in the past
-station_one = 'D03N'
+york_south = 'F18S'
+york_north = 'F18N'
 
 #creates the feed
 
@@ -32,21 +33,17 @@ feed.ParseFromString(response.read())
 
 #turns the feed into a dictionary
 useful_dict = protobuf_to_dict(feed)
-#just for troubleshooting
-#print useful_dict
 
 #this will print out everything that comes through the feed for troubleshooting/planning purposes into a file
 #with open('useful_dict.txt', 'wt') as out:
- #    pprint(useful_dict, stream=out)
+     #pprint(useful_dict, stream=out)
 
 #this is the list of sub elements in useful_dict. basically it makes useful_dict slightly more manageable
 useful_list = []
 
-#list of arrival times to be filled by extracting info from small_list
-arrival_times = []
+
 
 #walks through each train entry to see if it is an active train
-
 for i in range (len(useful_dict['entity'])):
     #this seems to be necessary, I'm not sure why
     if useful_dict['entity'][i]['id']:
@@ -57,22 +54,35 @@ for i in range (len(useful_dict['entity'])):
         except KeyError:
             pass
 
+#******************************
+#**********YORK SOUTH SECTION**
+#******************************
+
 #pulls the entries tied to specific stops
-small_list = [ i for i in chain.from_iterable(useful_list) if i['stop_id'] == station_one ]
+small_list_york_south = [ i for i in chain.from_iterable(useful_list) if i['stop_id'] == york_south ]
 
-pprint(small_list)
-
+#list of arrival times to be filled by extracting info from small_list
+arrival_times_york_south = []
 #extracts the times from the small_list and adds to arrival_times list
-for i in small_list:
+for i in small_list_york_south:
     #this is the arrival time of each train
     the_time = i['arrival']['time']
     #the_time - time.time gives you the seconds between arrival time and current time
     arrival_time_in_minutes = (int(the_time) - int(time.time()))/60
     #add arrival time to arrival_times list
-    arrival_times.append(arrival_time_in_minutes)
-    #just for troubleshooting
-    print arrival_time_in_minutes
-    
+    arrival_times_york_south.append(arrival_time_in_minutes)
+
+
+#******************************
+#**********YORK NORTH SECTION**
+#******************************
+small_list_york_north = [ i for i in chain.from_iterable(useful_list) if i['stop_id'] == york_north ]
+arrival_times_york_north = []
+for i in small_list_york_north:
+    the_time = i['arrival']['time']
+    arrival_time_in_minutes = (int(the_time) - int(time.time()))/60
+    arrival_times_york_north.append(arrival_time_in_minutes)
 
 #just for debugging
-print arrival_times
+print "York south: %s" % arrival_times_york_south
+print "York north: %s" % arrival_times_york_north
