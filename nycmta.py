@@ -104,8 +104,6 @@ feed_url.close()
 high_south = 'A40S'
 high_north = 'A40N'
 
-#creates the feed for the F train
-
 #URL has API key so keep it in a different file
 feed_url = open('url_AC.txt')
 
@@ -134,4 +132,47 @@ for i in range (len(useful_dict['entity'])):
         except KeyError:
             pass
 
-pprint(useful_list)
+#for debugging
+#pprint(useful_list)
+
+#******************************
+#**********HIGH SOUTH SECTION**
+#******************************
+
+#pulls the entries tied to specific stops
+small_list_high_south = [ i for i in chain.from_iterable(useful_list) if i['stop_id'] == high_south ]
+
+#list of arrival times to be filled by extracting info from small_list
+arrival_times_high_south = []
+#extracts the times from the small_list and adds to arrival_times list
+for i in small_list_high_south:
+    #this is the arrival time of each train
+    the_time = i['arrival']['time']
+    #the_time - time.time gives you the seconds between arrival time and current time
+    arrival_time_in_minutes = (int(the_time) - int(time.time()))/60
+    #add arrival time to arrival_times list
+    arrival_times_high_south.append(arrival_time_in_minutes)
+
+#for debugging
+print "High south: %s" % arrival_times_high_south
+
+#******************************
+#**********HIGH NORTH SECTION**
+#******************************
+
+#pulls the entries tied to specific stops
+small_list_high_north = [ i for i in chain.from_iterable(useful_list) if i['stop_id'] == high_north ]
+
+#list of arrival times to be filled by extracting info from small_list
+arrival_times_high_north = []
+#extracts the times from the small_list and adds to arrival_times list
+for i in small_list_high_north:
+    #this is the arrival time of each train
+    the_time = i['arrival']['time']
+    #the_time - time.time gives you the seconds between arrival time and current time
+    arrival_time_in_minutes = (int(the_time) - int(time.time()))/60
+    #add arrival time to arrival_times list
+    arrival_times_high_north.append(arrival_time_in_minutes)
+
+#for debugging
+print "High north: %s" % arrival_times_high_north
