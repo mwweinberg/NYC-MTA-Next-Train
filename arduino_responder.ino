@@ -63,22 +63,22 @@ void loop() {
     //first light 
     if (str.indexOf('a') >= 0) {
       //LED number, RGB
-      strip.setPixelColor(0, 255, 140, 0);
+      strip.setPixelColor(0, 140, 255, 0);
     }
 
     //second light 
     if (str.indexOf('b') >= 0) {
-      strip.setPixelColor(1, 255, 140, 0);
-    } 
+      strip.setPixelColor(1, 140, 255, 0);
+    }
 
     //third light 
     if (str.indexOf('c') >= 0) {
-      strip.setPixelColor(2, 255, 140, 0);
+      strip.setPixelColor(2, 140, 255, 0);
     }
 
     //fourth light 
     if (str.indexOf('d') >= 0) {
-      strip.setPixelColor(3, 255, 140, 0);
+      strip.setPixelColor(3, 140, 255, 0);
     }
 
     //york north 
@@ -86,22 +86,22 @@ void loop() {
     //first light 
     if (str.indexOf('3') >= 0) {
       //LED number, RGB
-      strip.setPixelColor(4, 255, 140, 0);
+      strip.setPixelColor(4, 140, 255, 0);
     }
 
     //second light 
     if (str.indexOf('f') >= 0) {
-      strip.setPixelColor(5, 255, 140, 0);
+      strip.setPixelColor(5, 140, 255, 0);
     } 
 
     //third light 
     if (str.indexOf('g') >= 0) {
-      strip.setPixelColor(6, 255, 140, 0);
+      strip.setPixelColor(6, 140, 255, 0);
     }
 
     //fourth light 
     if (str.indexOf('h') >= 0) {
-      strip.setPixelColor(7, 255, 140, 0);
+      strip.setPixelColor(7, 140, 255, 0);
     }
 
     //high south 
