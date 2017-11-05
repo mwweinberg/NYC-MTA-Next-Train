@@ -48,8 +48,8 @@ void loop() {
        }
      //push the changes
      strip.show();
-     //wait 4 hours
-     delay(14400000);
+     //wait 4 hours which is 14400000
+     delay(90000);
   }
   
   
@@ -65,20 +65,32 @@ void loop() {
       //LED number, RGB
       strip.setPixelColor(0, 140, 255, 0);
     }
+    else {
+      strip.setPixelColor(0, 0, 0, 0);
+    }
 
     //second light 
     if (str.indexOf('b') >= 0) {
       strip.setPixelColor(1, 140, 255, 0);
+    }
+    else {
+      strip.setPixelColor(1, 0, 0, 0);
     }
 
     //third light 
     if (str.indexOf('c') >= 0) {
       strip.setPixelColor(2, 140, 255, 0);
     }
+    else {
+      strip.setPixelColor(2, 0, 0, 0);
+    }
 
     //fourth light 
     if (str.indexOf('d') >= 0) {
       strip.setPixelColor(3, 140, 255, 0);
+    }
+    else {
+      strip.setPixelColor(3, 0, 0, 0);
     }
 
     //york north 
@@ -88,20 +100,32 @@ void loop() {
       //LED number, RGB
       strip.setPixelColor(4, 140, 255, 0);
     }
+    else {
+      strip.setPixelColor(4, 0, 0, 0);
+    }
 
     //second light 
     if (str.indexOf('f') >= 0) {
       strip.setPixelColor(5, 140, 255, 0);
     } 
+    else {
+      strip.setPixelColor(5, 0, 0, 0);
+    }
 
     //third light 
     if (str.indexOf('g') >= 0) {
       strip.setPixelColor(6, 140, 255, 0);
     }
+    else {
+      strip.setPixelColor(6, 0, 0, 0);
+    }
 
     //fourth light 
     if (str.indexOf('h') >= 0) {
       strip.setPixelColor(7, 140, 255, 0);
+    }
+    else {
+      strip.setPixelColor(7, 0, 0, 0);
     }
 
     //high south 
@@ -111,20 +135,32 @@ void loop() {
       //LED number, RGB
       strip.setPixelColor(8, 0, 0, 255);
     }
+    else {
+      strip.setPixelColor(8, 0, 0, 0);
+    }
 
     //second light 
     if (str.indexOf('j') >= 0) {
       strip.setPixelColor(9, 0, 0, 255);
     } 
+    else {
+      strip.setPixelColor(9, 0, 0, 0);
+    }
 
     //third light 
     if (str.indexOf('k') >= 0) {
       strip.setPixelColor(10, 0, 0, 255);
     }
+    else {
+      strip.setPixelColor(10, 0, 0, 0);
+    }
 
     //fourth light 
     if (str.indexOf('l') >= 0) {
       strip.setPixelColor(11, 0, 0, 255);
+    }
+    else {
+      strip.setPixelColor(11, 0, 0, 0);
     }
 
     //high north 
@@ -134,20 +170,32 @@ void loop() {
       //LED number, RGB
       strip.setPixelColor(12, 0, 0, 255);
     }
+    else {
+      strip.setPixelColor(12, 0, 0, 0);
+    }
 
     //second light 
     if (str.indexOf('n') >= 0) {
       strip.setPixelColor(13, 0, 0, 255);
     } 
+    else {
+      strip.setPixelColor(13, 0, 0, 0);
+    }
 
     //third light 
     if (str.indexOf('o') >= 0) {
       strip.setPixelColor(14, 0, 0, 255);
     }
+    else {
+      strip.setPixelColor(14, 0, 0, 0);
+    }
 
     //fourth light 
     if (str.indexOf('p') >= 0) {
       strip.setPixelColor(15, 0, 0, 255);
+    }
+    else {
+      strip.setPixelColor(15, 0, 0, 0);
     }
 
     // off
