@@ -15,6 +15,7 @@ import time
 from config import *
 
 #for talking to arduino
+#******this is actually the pyserial library
 import serial
 
 #variables to hold the lists
@@ -28,11 +29,11 @@ light_list = []
 
 
 #opens up the serial connection with arduino
-'''
+
 ser = serial.Serial('/dev/ttyACM0', 9600)
 #this is necessary because once it opens up the serial port arduino needs a second
 time.sleep(2)
-'''
+
 
 
 #function to scrape the MTA site and add the arrival times to arrival_times lists
@@ -117,53 +118,61 @@ def light_send():
         #is it between 7am and 9pm
         #DONT USE () FOR HOURS
         if d.hour in range(8, 22):
-            #ser.write(light_string)
-            print "lights would be on"
+            ser.write(light_string)
+            print "lights would be on weekday"
+            print light_string
         else:
-            #ser.write(off_string)
+            ser.write(off_string)
             print "lights would be off"
+            print off_string
     #on the weekend
     elif d.weekday() in range(5, 7):
         #between 8am and 10pm
         if d.hour in range (9, 23):
-            #ser.write(light_string);
-            print "lights would be on"
+            ser.write(light_string);
+            print "lights would be on weekend"
+            print light_string
         else:
-            #ser.write(off_string)
+            ser.write(off_string)
             print "lights would be off"
+            print off_string
     else:
         print "date error"
 
+while True:
 
-arrival_times_york_south = grabber('F18S', URL_F)
-arrival_times_york_north = grabber('F18N', URL_F)
-arrival_times_high_south = grabber('A40S', URL_AC)
-arrival_times_high_north = grabber('A40N', URL_AC)
+    arrival_times_york_south = grabber('F18S', URL_F)
+    arrival_times_york_north = grabber('F18N', URL_F)
+    arrival_times_high_south = grabber('A40S', URL_AC)
+    arrival_times_high_north = grabber('A40N', URL_AC)
 
-#debugging
-print arrival_times_york_south
-print arrival_times_york_north
-print arrival_times_high_south
-print arrival_times_high_north
+    #debugging
+    print arrival_times_york_south
+    print arrival_times_york_north
+    print arrival_times_high_south
+    print arrival_times_high_north
 
-lighter(arrival_times_york_south, 'a', 'b', 'c', 'd')
-lighter(arrival_times_high_north, 'e', 'f', 'g', 'h')
-lighter(arrival_times_high_south, 'i', 'j', 'k', 'l')
-lighter(arrival_times_high_north, 'm', 'n', 'o', 'p')
+    lighter(arrival_times_york_south, 'a', 'b', 'c', 'd')
+    lighter(arrival_times_york_north, 'e', 'f', 'g', 'h')
+    lighter(arrival_times_high_south, 'i', 'j', 'k', 'l')
+    lighter(arrival_times_high_north, 'm', 'n', 'o', 'p')
 
-#this adds the termination character that the arduino will be looking for
-light_list.append('Z')
-#this turns the list into a string to send to the arduino
-light_string = ''.join(light_list)
-#this is the off string for times when the light should be off
-off_string = 'Y'
+    #this adds the termination character that the arduino will be looking for
+    light_list.append('Z')
+    #this turns the list into a string to send to the arduino
+    light_string = ''.join(light_list)
+    #this is the off string for times when the light should be off
+    off_string = 'Y'
 
-#debugging
-print light_list
-print light_string
+    #debugging
+    print light_list
+    print light_string
 
-#push string to arduino
-light_send()
+    #push string to arduino
+    light_send()
 
-#empties light_list
-light_list = []
+    #empties light_list
+    light_list = []
+
+    print "sleeping for 20 seconds"
+    time.sleep(20)
