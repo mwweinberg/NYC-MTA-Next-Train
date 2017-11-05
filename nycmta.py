@@ -6,12 +6,16 @@ from pprint import pprint
 from protobuf_to_dict import protobuf_to_dict
 from itertools import chain
 
+#for deciding if the arduino should light up
+import datetime
 #for comparing the arrival times
-#import datetime
 import time
 
 #imports the url variables from config.py in the same folder
 from config import *
+
+#for talking to arduino
+import serial
 
 #variables to hold the lists
 arrival_times_york_south = []
@@ -21,6 +25,14 @@ arrival_times_high_north = []
 
 #variable to hold the string to send to arduino
 light_list = []
+
+
+#opens up the serial connection with arduino
+'''
+ser = serial.Serial('/dev/ttyACM0', 9600)
+#this is necessary because once it opens up the serial port arduino needs a second
+time.sleep(2)
+'''
 
 
 #function to scrape the MTA site and add the arrival times to arrival_times lists
@@ -94,6 +106,33 @@ def lighter(arrival_list, light_one, light_two, light_three, light_four):
     #only relevant when this becomes a loop
     arrival_list = []
 
+#send the lights to arduino
+def light_send():
+    #ser.write(light_string)
+    #figure out the current date and time
+    d = datetime.datetime.now()
+
+    #during the week
+    if d.weekday() in range(0, 6):
+        #is it between 7am and 9pm
+        #DONT USE () FOR HOURS
+        if d.hour in range(8, 22):
+            #ser.write(light_string)
+            print "lights would be on"
+        else:
+            #ser.write(off_string)
+            print "lights would be off"
+    #on the weekend
+    elif d.weekday() in range(5, 7):
+        #between 8am and 10pm
+        if d.hour in range (9, 23):
+            #ser.write(light_string);
+            print "lights would be on"
+        else:
+            #ser.write(off_string)
+            print "lights would be off"
+    else:
+        print "date error"
 
 
 arrival_times_york_south = grabber('F18S', URL_F)
@@ -116,7 +155,15 @@ lighter(arrival_times_high_north, 'm', 'n', 'o', 'p')
 light_list.append('Z')
 #this turns the list into a string to send to the arduino
 light_string = ''.join(light_list)
+#this is the off string for times when the light should be off
+off_string = 'Y'
 
 #debugging
 print light_list
 print light_string
+
+#push string to arduino
+light_send()
+
+#empties light_list
+light_list = []
