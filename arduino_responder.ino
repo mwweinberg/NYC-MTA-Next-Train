@@ -7,6 +7,9 @@
 int incomingByte; //variable to read incoming serial data
 String str;
 
+const int buttonPin = 2; //that's the interrupt button pin
+int buttonState = 0;
+
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
 // Parameter 3 = pixel type flags, add together as needed:
@@ -28,9 +31,28 @@ void setup() {
    // initialize serial communication:
   Serial.begin(9600);
 
+  //for the interrupt
+  pinMode(buttonPin, INPUT);
+
 }
 
 void loop() {
+
+  //for checking the interrupt
+  buttonState = digitalRead(buttonPin);
+  //if the button is pushed 
+  if (buttonState == HIGH) {
+    //set all of the pixels to off
+    for(int x = 0; x < 16; x++) {
+       strip.setPixelColor(x, 0, 0, 0);
+       }
+     //push the changes
+     strip.show();
+     //wait 4 hours
+     delay(14400000);
+  }
+  
+  
   // see if there's incoming serial data:
   if (Serial.available() > 0) {
     // read the string up until the 'Z' char marks the end
