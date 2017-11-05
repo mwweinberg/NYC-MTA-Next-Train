@@ -104,5 +104,11 @@ lighter(arrival_times_high_north, 'e', 'f', 'g', 'h')
 lighter(arrival_times_high_south, 'i', 'j', 'k', 'l')
 lighter(arrival_times_high_north, 'm', 'n', 'o', 'p')
 
+#this adds the termination character that the arduino will be looking for
+light_list.append('Z')
+#this turns the list into a string to send to the arduino
+light_string = ''.join(light_list)
+
 #debugging
 print light_list
+print light_string
