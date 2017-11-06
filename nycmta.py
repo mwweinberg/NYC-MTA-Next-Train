@@ -128,7 +128,7 @@ def light_send():
     #on the weekend
     elif d.weekday() in range(5, 7):
         #between 8am and 10pm
-        if d.hour in range (9, 23):
+        if d.hour in range (9, 22):
             ser.write(light_string);
             print "lights would be on weekend"
             print light_string
