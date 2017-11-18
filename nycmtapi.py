@@ -15,11 +15,11 @@ import time
 #imports the url variables from config.py in the same folder
 from config import *
 
-#for talking to arduino
-#******this is actually the pyserial library
-import serial
-
 from neopixel import *
+
+#for the pause button
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
 
 #variables to hold the lists
 arrival_times_york_south = []
@@ -31,7 +31,7 @@ arrival_times_high_north = []
 light_list = []
 
 # LED strip configuration:
-LED_COUNT      = 8      # Number of LED pixels.
+LED_COUNT      = 9      # Number of LED pixels.
 LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 #LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -46,8 +46,8 @@ strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, 
 # Intialize the library (must be called once before other functions).
 strip.begin()
 
-
-
+#GPIO set up at pin 23
+GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 
 #function to scrape the MTA site and add the arrival times to arrival_times lists
@@ -150,8 +150,18 @@ def blackout():
     else:
         print "date error"
 
+#for the pause button
+def pause_button(channel):
+    print "pausing"
+    for i in range(LED_COUNT):
+        strip.setPixelColorRGB(i, 0, 0, 0)
+    strip.show()
+    #time is in seconds
+    time.sleep(30)
 
 
+#checking for the pause button
+GPIO.add_event_detect(23, GPIO.FALLING, callback=pause_button, bouncetime=300)
 
 while True:
 
