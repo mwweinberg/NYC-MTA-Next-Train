@@ -12,6 +12,11 @@ import datetime
 #for comparing the arrival times
 import time
 
+#for grabber
+import math
+import os
+import traceback
+
 #imports the url variables from config.py in the same folder
 from config import *
 
@@ -49,56 +54,60 @@ strip.begin()
 #GPIO set up at pin 23
 GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+#variables to hold the station IDs
+HighS = ['A40S']
+HighN = ['A40N']
+YorkS = ['F18S']
+YorkN = ['F18N']
+
 
 #function to scrape the MTA site and add the arrival times to arrival_times lists
-def grabber(station_ID, station_URL):
 
-    try:
-        #grabs the feed
-        feed = gtfs_realtime_pb2.FeedMessage()
-        response = urllib.urlopen(station_URL)
-        feed.ParseFromString(response.read())
+def grabber(station_ID, station_URL, station_line):
 
-        #turns the feed into a dictionary
-        useful_dict = protobuf_to_dict(feed)
+	times = []
+	out = ''
 
-        #this is the list of sub elements in useful_dict. basically it makes useful_dict slightly more manageable
-        useful_list = []
+	try:
+		mtafeed = gtfs_realtime_pb2.FeedMessage()
+		#response = urllib.urlopen('http://datamine.mta.info/mta_esi.php?key=' + MTA_KEY + '&feed_id=26')
+		response = urllib.urlopen(station_URL)
+		mtafeed.ParseFromString(response.read())
+		current_time = datetime.datetime.now()
+		for stop in station_ID:
+			for entity in mtafeed.entity:
+				if entity.trip_update.trip.route_id == station_line:
+					if entity.trip_update:
+						for update in entity.trip_update.stop_time_update:
+							if update.stop_id == stop:
+								time = update.arrival.time
+								if time <= 0:
+									time = update.departure.time
 
-        #walks through each train entry to see if it is an active train
-        for i in range (len(useful_dict['entity'])):
-            #this seems to be necessary, I'm not sure why
-            if useful_dict['entity'][i]['id']:
-                #adds the arrival information to useful_list
-                try:
-                    useful_list.append(useful_dict['entity'][i]['trip_update']['stop_time_update'])
-                #if it is an entry that it not an active train, ignores
-                except KeyError:
-                    pass
+								time = datetime.datetime.fromtimestamp(time)
+								time = math.trunc(((time - current_time).total_seconds()) / 60)
+								times.append(time)
+			times.sort()
+			for time in times:
+				if time < 0:
+					times.remove(time)
+			for time in times[:NUM_TRAINS]:
+				out+=str(time)
+				out+=str(',')
+			out = out[:-1]
+			print times
 
-        #pulls the entries tied to specific stops
-        small_list_station = [ i for i in chain.from_iterable(useful_list) if i['stop_id'] == station_ID ]
+			return times
 
-        #list of arrival times to be filled by extracting info from small_list
-        arrival_times_station = []
-        #extracts the times from the small_list and adds to arrival_times list
-        for i in small_list_station:
-            #this is the arrival time of each train
-            the_time = i['arrival']['time']
-            #the_time - time.time gives you the seconds between arrival time and current time
-            arrival_time_in_minutes = (int(the_time) - int(time.time()))/60
-            #add arrival time to arrival_times list
-            arrival_times_station.append(arrival_time_in_minutes)
+			times = []
 
 
-        return arrival_times_station
+	except Exception:
+		print traceback.format_exc()
+		print "Some sort of error getting the %s data" % station_ID
+		times = []
+		return times
 
-    #if there is an error getting an MTA feed it still returns something
-    #instead of borking the entire process
-    except:
-        print "Some sort of error getting the %s data" % station_ID
-        arrival_times_station = []
-        return arrival_times_station
 
 #functionto convert arrival_times lists to lit LEDs
 def lighter(arrival_list, light_one, light_two, light_three, light_four, line_R, line_G, line_B):
@@ -165,10 +174,11 @@ GPIO.add_event_detect(23, GPIO.FALLING, callback=pause_button, bouncetime=300)
 
 while True:
 
-    arrival_times_york_south = grabber('F18S', URL_F)
-    arrival_times_york_north = grabber('F18N', URL_F)
-    arrival_times_high_south = grabber('A40S', URL_AC)
-    arrival_times_high_north = grabber('A40N', URL_AC)
+    arrival_times_york_south = grabber(YorkS, URL_F,'F')
+    arrival_times_york_north = grabber(YorkN, URL_F,'F')
+    arrival_times_high_south = grabber(HighS, URL_AC, 'C')
+    #arrival_times_high_south = grabber('A40S', URL_AC, 'C')
+    arrival_times_high_north = grabber(HighN, URL_AC, 'C')
 
     #debugging
     print arrival_times_york_south
