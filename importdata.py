@@ -20,7 +20,8 @@ def grabber(station_ID, station_URL, station_line):
 
 	try:
 		mtafeed = gtfs_realtime_pb2.FeedMessage()
-		response = urllib.urlopen('http://datamine.mta.info/mta_esi.php?key=' + MTA_KEY + '&feed_id=26')
+		#response = urllib.urlopen('http://datamine.mta.info/mta_esi.php?key=' + MTA_KEY + '&feed_id=26')
+		response = urllib.urlopen(station_URL)
 		mtafeed.ParseFromString(response.read())
 		current_time = datetime.datetime.now()
 		for stop in station_ID:
@@ -46,12 +47,16 @@ def grabber(station_ID, station_URL, station_line):
 			out = out[:-1]
 			print times
 
+			return times
+
 			times = []
-			#TODO: return times 
+
 
 	except Exception:
-		#TODO: match this exception to the one in nycmtapi
 		print traceback.format_exc()
+		print "Some sort of error getting the %s data" % station_ID
+		times = []
+		return times
 
 while True:
-	grabber(HighN, 'url', 'C')
+	grabber(HighN, URL_AC, 'C')
