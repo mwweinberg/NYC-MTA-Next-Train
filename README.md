@@ -6,6 +6,8 @@ The script expects your API urls to be in a file named config.py in the same dir
 
 nycmtapi.py is the primary script.
 
+The 'grabber' function is adopted from https://github.com/chris-griffin/real-time
+
 nycmta.py was the script in connection with the arduino.  It is no longer used.
 
 arduino_responder.ino is no longer used. It was written when I was using the arduino to drive the neopixels. Now I am just using the pi GPIO pins.
