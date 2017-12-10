@@ -29,8 +29,10 @@ GPIO.setmode(GPIO.BCM)
 #variables to hold the lists
 arrival_times_york_south = []
 arrival_times_york_north = []
-arrival_times_high_south = []
-arrival_times_high_north = []
+arrival_times_high_south_a = []
+arrival_times_high_north_a = []
+arrival_times_high_south_c = []
+arrival_times_high_north_c = []
 
 #variable to hold the string to send to arduino
 light_list = []
@@ -176,20 +178,19 @@ while True:
 
     arrival_times_york_south = grabber(YorkS, URL_F,'F')
     arrival_times_york_north = grabber(YorkN, URL_F,'F')
-    arrival_times_high_south = grabber(HighS, URL_AC, 'C')
-    #arrival_times_high_south = grabber('A40S', URL_AC, 'C')
-    arrival_times_high_north = grabber(HighN, URL_AC, 'C')
-
-    #debugging
-    print arrival_times_york_south
-    print arrival_times_york_north
-    print arrival_times_high_south
-    print arrival_times_high_north
+    arrival_times_high_south_a = grabber(HighS, URL_AC, 'A')
+    arrival_times_high_north_a = grabber(HighN, URL_AC, 'A')
+    arrival_times_high_south_c = grabber(HighS, URL_AC, 'C')
+    arrival_times_high_north_c = grabber(HighN, URL_AC, 'C')
 
     lighter(arrival_times_york_south, 0, 1, 2, 3, 140, 255, 0)
     lighter(arrival_times_york_north, 4, 5, 6, 7, 140, 255,0)
-    lighter(arrival_times_high_south, 8, 9, 10, 11, 0, 0, 255)
-    lighter(arrival_times_high_north, 12, 13, 14, 15, 0, 0, 255)
+    lighter(arrival_times_high_south_a, 8, 9, 10, 11, 0, 0, 255)
+    lighter(arrival_times_high_north_a, 12, 13, 14, 15, 0, 0, 255)
+    lighter(arrival_times_high_south_c, 16, 17, 18, 19, 0, 0, 255)
+    lighter(arrival_times_high_north_c, 20, 21, 22, 23, 0, 0, 255)
+
+
 
     blackout()
 
