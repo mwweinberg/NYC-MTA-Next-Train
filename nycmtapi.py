@@ -38,7 +38,7 @@ arrival_times_high_north_c = []
 light_list = []
 
 # LED strip configuration:
-LED_COUNT      = 9      # Number of LED pixels.
+LED_COUNT      = 30      # Number of LED pixels.
 LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 #LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -61,6 +61,11 @@ HighS = ['A40S']
 HighN = ['A40N']
 YorkS = ['F18S']
 YorkN = ['F18N']
+
+#variables to hold the walk times
+HighWalk = 13
+YorkWalk = 7
+
 
 
 #function to scrape the MTA site and add the arrival times to arrival_times lists
@@ -112,19 +117,21 @@ def grabber(station_ID, station_URL, station_line):
 
 
 #functionto convert arrival_times lists to lit LEDs
-def lighter(arrival_list, light_one, light_two, light_three, light_four, line_R, line_G, line_B):
+def lighter(arrival_list, time_start, light_one, light_two, light_three, light_four, light_five, line_R, line_G, line_B):
     #walk through the numbers in the list
     for item in arrival_list:
         #convert the number to a number and see if it is in this
-        if 1 <= int(item) <= 8:
+        if  int(item) == time_start:
             #if it is, turn on the corresponding LED in the correct color
             strip.setPixelColorRGB(light_one, line_R, line_G, line_B)
-        elif 8 < int(item) <= 12:
+        elif time_start < int(item) <= (time_start + 2):
             strip.setPixelColorRGB(light_two, line_R, line_G, line_B)
-        elif 12 < int(item) <=17:
+        elif (time_start + 2) < int(item) <= (time_start + 4):
             strip.setPixelColorRGB(light_three, line_R, line_G, line_B)
-        elif 17 < int(item) <=25:
+        elif (time_start + 4) < int(item) <= (time_start + 7):
             strip.setPixelColorRGB(light_four, line_R, line_G, line_B)
+        elif (time_start + 7) < int(item) <= (time_start + 12):
+            strip.setPixelColorRGB(light_five, line_R, line_G, line_B)
         else:
             pass
 
@@ -183,12 +190,12 @@ while True:
     arrival_times_high_south_c = grabber(HighS, URL_AC, 'C')
     arrival_times_high_north_c = grabber(HighN, URL_AC, 'C')
 
-    lighter(arrival_times_york_south, 0, 1, 2, 3, 140, 255, 0)
-    lighter(arrival_times_york_north, 4, 5, 6, 7, 140, 255,0)
-    lighter(arrival_times_high_south_a, 8, 9, 10, 11, 0, 0, 255)
-    lighter(arrival_times_high_north_a, 12, 13, 14, 15, 0, 0, 255)
-    lighter(arrival_times_high_south_c, 16, 17, 18, 19, 0, 0, 255)
-    lighter(arrival_times_high_north_c, 20, 21, 22, 23, 0, 0, 255)
+    lighter(arrival_times_york_south, YorkWalk, 0, 1, 2, 3, 4, 140, 255, 0)
+    lighter(arrival_times_york_north, YorkWalk, 5, 6, 7, 8, 9, 140, 255,0)
+    lighter(arrival_times_high_south_a, HighWalk, 10, 11, 12, 13, 14, 0, 0, 255)
+    lighter(arrival_times_high_north_a, HighWalk, 15, 16, 17, 18, 19, 0, 0, 255)
+    lighter(arrival_times_high_south_c, HighWalk, 20, 21, 22, 23, 24, 0, 0, 255)
+    lighter(arrival_times_high_north_c, HighWalk, 25, 26, 27, 28, 29, 0, 0, 255)
 
 
 
