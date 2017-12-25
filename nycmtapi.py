@@ -118,64 +118,82 @@ def grabber(station_ID, station_URL, station_line):
 
 #functionto convert arrival_times lists to lit LEDs
 def lighter(arrival_list, time_start, light_one, light_two, light_three, light_four, light_five, line_R, line_G, line_B):
-    #walk through the numbers in the list
-    for item in arrival_list:
-        #convert the number to a number and see if it is in this
-        if  int(item) == time_start:
-            #if it is, turn on the corresponding LED in the correct color
-            strip.setPixelColorRGB(light_one, line_R, line_G, line_B)
-        elif time_start < int(item) <= (time_start + 2):
-            strip.setPixelColorRGB(light_two, line_R, line_G, line_B)
-        elif (time_start + 2) < int(item) <= (time_start + 4):
-            strip.setPixelColorRGB(light_three, line_R, line_G, line_B)
-        elif (time_start + 4) < int(item) <= (time_start + 7):
-            strip.setPixelColorRGB(light_four, line_R, line_G, line_B)
-        elif (time_start + 7) < int(item) <= (time_start + 12):
-            strip.setPixelColorRGB(light_five, line_R, line_G, line_B)
-        else:
-            pass
 
-    #clearn out arrival_times list for the next time around
-    #only relevant when this becomes a loop
-    arrival_list = []
+	#resets lighs to off
+	#this setting is replaced in the if statements below
+	#if the light should be on
+	#however, this is necessary so lights don't linger on
+	strip.setPixelColorRGB(light_one, 0, 0, 0)
+	strip.setPixelColorRGB(light_two, 0, 0, 0)
+	strip.setPixelColorRGB(light_three, 0, 0, 0)
+	strip.setPixelColorRGB(light_four, 0, 0, 0)
+	strip.setPixelColorRGB(light_five, 0, 0, 0)
+
+	#walk through the numbers in the list
+	for item in arrival_list:
+
+		#convert the number to a number and see if it is in this
+		#all of the prints are for troubleshooting
+		if  int(item) == time_start:
+			#if it is, turn on the corresponding LED in the correct color
+			strip.setPixelColorRGB(light_one, line_R, line_G, line_B)
+			print "Light %s activated because the time is %s" % (light_one, int(item))
+		elif time_start < int(item) <= (time_start + 2):
+			strip.setPixelColorRGB(light_two, line_R, line_G, line_B)
+			print "Light %s activated because the time is %s" % (light_two, int(item))
+		elif (time_start + 2) < int(item) <= (time_start + 4):
+			strip.setPixelColorRGB(light_three, line_R, line_G, line_B)
+			print "Light %s activated because the time is %s" % (light_three, int(item))
+		elif (time_start + 4) < int(item) <= (time_start + 7):
+			strip.setPixelColorRGB(light_four, line_R, line_G, line_B)
+			print "Light %s activated because the time is %s" % (light_four, int(item))
+		elif (time_start + 7) < int(item) <= (time_start + 12):
+			strip.setPixelColorRGB(light_five, line_R, line_G, line_B)
+			print "Light %s activated because the time is %s" % (light_five, int(item))
+		else:
+			pass
+
+	#clearn out arrival_times list for the next time around
+	#only relevant when this becomes a loop
+	arrival_list = []
 
 #to turn off the lights when it is off time
 def blackout():
-    #figure out the current date and time
-    d = datetime.datetime.now()
-    #during the week
-    if d.weekday() in range(0, 6):
-        #is it between 7am and 9pm
-        #DONT USE () FOR HOURS
-        if d.hour in range(8, 22):
-            print "lights would be on weekday"
-        #turn off all of the lights
-        else:
-            for i in range(LED_COUNT):
-                strip.setPixelColorRGB(i, 0, 0, 0)
-            print "lights would be off"
+	#figure out the current date and time
+	d = datetime.datetime.now()
+	#during the week
+	if d.weekday() in range(0, 6):
+		#is it between 7am and 9pm
+		#DONT USE () FOR HOURS
+		if d.hour in range(8, 22):
+			print "lights would be on weekday"
+		#turn off all of the lights
+		else:
+			for i in range(LED_COUNT):
+				strip.setPixelColorRGB(i, 0, 0, 0)
+			print "lights would be off"
 
-    #on the weekend
-    elif d.weekday() in range(5, 7):
-        #between 8am and 10pm
-        if d.hour in range (9, 22):
-            print "lights would be on weekend"
+	#on the weekend
+	elif d.weekday() in range(5, 7):
+		#between 8am and 10pm
+		if d.hour in range (9, 22):
+			print "lights would be on weekend"
 
-        else:
-            for i in range(LED_COUNT):
-                strip.setPixelColorRGB(i, 0, 0, 0)
-            print "lights would be off weekend"
-    else:
-        print "date error"
+		else:
+			for i in range(LED_COUNT):
+				strip.setPixelColorRGB(i, 0, 0, 0)
+			print "lights would be off weekend"
+	else:
+		print "date error"
 
 #for the pause button
 def pause_button(channel):
-    print "pausing"
-    for i in range(LED_COUNT):
-        strip.setPixelColorRGB(i, 0, 0, 0)
-    strip.show()
-    #time is in seconds
-    time.sleep(30)
+	print "pausing"
+	for i in range(LED_COUNT):
+		strip.setPixelColorRGB(i, 0, 0, 0)
+	strip.show()
+	#time is in seconds
+	time.sleep(30)
 
 
 #checking for the pause button
@@ -183,25 +201,25 @@ GPIO.add_event_detect(23, GPIO.FALLING, callback=pause_button, bouncetime=300)
 
 while True:
 
-    arrival_times_york_south = grabber(YorkS, URL_F,'F')
-    arrival_times_york_north = grabber(YorkN, URL_F,'F')
-    arrival_times_high_south_a = grabber(HighS, URL_AC, 'A')
-    arrival_times_high_north_a = grabber(HighN, URL_AC, 'A')
-    arrival_times_high_south_c = grabber(HighS, URL_AC, 'C')
-    arrival_times_high_north_c = grabber(HighN, URL_AC, 'C')
+	arrival_times_york_south = grabber(YorkS, URL_F,'F')
+	arrival_times_york_north = grabber(YorkN, URL_F,'F')
+	arrival_times_high_south_a = grabber(HighS, URL_AC, 'A')
+	arrival_times_high_north_a = grabber(HighN, URL_AC, 'A')
+	arrival_times_high_south_c = grabber(HighS, URL_AC, 'C')
+	arrival_times_high_north_c = grabber(HighN, URL_AC, 'C')
 
-    lighter(arrival_times_york_south, YorkWalk, 0, 1, 2, 3, 4, 140, 255, 0)
-    lighter(arrival_times_york_north, YorkWalk, 5, 6, 7, 8, 9, 140, 255,0)
-    lighter(arrival_times_high_south_a, HighWalk, 10, 11, 12, 13, 14, 0, 0, 255)
-    lighter(arrival_times_high_north_a, HighWalk, 15, 16, 17, 18, 19, 0, 0, 255)
-    lighter(arrival_times_high_south_c, HighWalk, 20, 21, 22, 23, 24, 0, 0, 255)
-    lighter(arrival_times_high_north_c, HighWalk, 25, 26, 27, 28, 29, 0, 0, 255)
+	lighter(arrival_times_york_south, YorkWalk, 0, 1, 2, 3, 4, 140, 255, 0)
+	lighter(arrival_times_york_north, YorkWalk, 5, 6, 7, 8, 9, 140, 255,0)
+	lighter(arrival_times_high_south_a, HighWalk, 10, 11, 12, 13, 14, 0, 0, 255)
+	lighter(arrival_times_high_north_a, HighWalk, 15, 16, 17, 18, 19, 0, 0, 255)
+	lighter(arrival_times_high_south_c, HighWalk, 20, 21, 22, 23, 24, 0, 0, 255)
+	lighter(arrival_times_high_north_c, HighWalk, 25, 26, 27, 28, 29, 0, 0, 255)
 
 
 
-    blackout()
+	blackout()
 
-    strip.show()
+	strip.show()
 
-    print "sleeping for 20 seconds"
-    time.sleep(20)
+	print "sleeping for 20 seconds"
+	time.sleep(20)
