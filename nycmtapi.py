@@ -162,7 +162,7 @@ def blackout():
 	#figure out the current date and time
 	d = datetime.datetime.now()
 	#during the week
-	if d.weekday() in range(0, 6):
+	if d.weekday() in range(0, 5):
 		#is it between 7am and 9pm
 		#DONT USE () FOR HOURS
 		if d.hour in range(8, 22):
