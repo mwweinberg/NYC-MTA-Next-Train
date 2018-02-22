@@ -208,12 +208,12 @@ while True:
 	arrival_times_high_south_c = grabber(HighS, URL_AC, 'C')
 	arrival_times_high_north_c = grabber(HighN, URL_AC, 'C')
 
-	lighter(arrival_times_york_south, YorkWalk, 0, 1, 2, 3, 4, 140, 255, 0)
-	lighter(arrival_times_york_north, YorkWalk, 5, 6, 7, 8, 9, 140, 255,0)
-	lighter(arrival_times_high_south_a, HighWalk, 10, 11, 12, 13, 14, 0, 0, 255)
-	lighter(arrival_times_high_north_a, HighWalk, 15, 16, 17, 18, 19, 0, 0, 255)
-	lighter(arrival_times_high_south_c, HighWalk, 20, 21, 22, 23, 24, 0, 0, 255)
-	lighter(arrival_times_high_north_c, HighWalk, 25, 26, 27, 28, 29, 0, 0, 255)
+	lighter(arrival_times_york_south, YorkWalk, 0, 1, 2, 3, 4, 208, 9, 107)
+	lighter(arrival_times_york_north, YorkWalk, 5, 6, 7, 8, 9, 208, 9,107)
+	lighter(arrival_times_high_south_a, HighWalk, 10, 11, 12, 13, 14, 7, 213, 244)
+	lighter(arrival_times_high_north_a, HighWalk, 15, 16, 17, 18, 19, 7, 213, 244)
+	lighter(arrival_times_high_south_c, HighWalk, 20, 21, 22, 23, 24, 10, 0, 255)
+	lighter(arrival_times_high_north_c, HighWalk, 25, 26, 27, 28, 29, 10, 0, 255)
 
 
 
