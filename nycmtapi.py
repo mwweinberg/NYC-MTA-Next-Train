@@ -165,7 +165,7 @@ def blackout():
 	if d.weekday() in range(0, 5):
 		#is it between 7am and 9pm
 		#DONT USE () FOR HOURS
-		if d.hour in range(8, 22):
+		if d.hour in range(7, 20):
 			print "lights would be on weekday"
 		#turn off all of the lights
 		else:
@@ -176,7 +176,7 @@ def blackout():
 	#on the weekend
 	elif d.weekday() in range(5, 7):
 		#between 8am and 10pm
-		if d.hour in range (9, 22):
+		if d.hour in range (10, 28):
 			print "lights would be on weekend"
 
 		else:
@@ -221,5 +221,5 @@ while True:
 
 	strip.show()
 
-	print "sleeping for 20 seconds"
-	time.sleep(20)
+	print "sleeping for 5 seconds"
+	time.sleep(5)
