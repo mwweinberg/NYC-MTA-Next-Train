@@ -176,7 +176,7 @@ def blackout():
 	#on the weekend
 	elif d.weekday() in range(5, 7):
 		#between 8am and 10pm
-		if d.hour in range (10, 28):
+		if d.hour in range (10, 20):
 			print "lights would be on weekend"
 
 		else:
