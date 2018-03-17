@@ -1,15 +1,13 @@
 # NYC-MTA-Next-Train
-Physical display tied to arrival times for NYC subway trains at specific stations
 
+This is a project to create a series of indicator lights to tell you when you need to leave for the next subway train in New York.  It relies on the NYC MTA API and is powered by a raspberry pi and neopixels.  The full writeup can be found:
+
+http://michaelweinberg.org/post/171963532565/pi-powered-mta-subway-alerts
 
 The script expects your API urls to be in a file named config.py in the same directory.  You will need an API key from the MTA in order to access the information.  exampleconfig.py is this repo shows the expected format.
 
 nycmtapi.py is the primary script.
 
-The 'grabber' function is adopted from https://github.com/chris-griffin/real-time
+The 'grabber' function is adopted from https://github.com/chris-griffin/real-time 
 
-nycmta.py was the script in connection with the arduino.  It is no longer used.
-
-arduino_responder.ino is no longer used. It was written when I was using the arduino to drive the neopixels. Now I am just using the pi GPIO pins.
-
-Importdata.py is not necessary for the final product. I was using it to rebuild the "grabber" function.
+The files in the /archive folder are ones that I used to figure out how various pieces fit together and are no longer needed.  In part they reflect my original (incorrect) belief that I needed an independent arduino to power the lights.
