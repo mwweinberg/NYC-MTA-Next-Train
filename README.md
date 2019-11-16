@@ -11,3 +11,7 @@ nycmtapi.py is the primary script.
 The 'grabber' function is adopted from https://github.com/chris-griffin/real-time 
 
 The files in the /archive folder are ones that I used to figure out how various pieces fit together and are no longer needed.  In part they reflect my original (incorrect) belief that I needed an independent arduino to power the lights.
+
+Hardware License: CERN-OHL-P (draft 9/27/19) or any subsequence CERN-OHL-P
+Software License: MIT
+Documentation License: CC BY-SA 4.0 Int'l
